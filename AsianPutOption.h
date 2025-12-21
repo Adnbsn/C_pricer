@@ -9,9 +9,14 @@ private:
     double _strike;
 
 public:
+
+    //constructor
     AsianPutOption(const std::vector<double>& path, double strike);
 
+    // override payoff
     double payoff(double avgSpot) const override;
 
+    // getter strike
     double getStrike() const;
 };
+
