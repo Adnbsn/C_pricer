@@ -8,7 +8,7 @@ private:
     double strike;
 
 public:
-    // Constructeur
+    // Constructor
     EuropeanDigitalOption(double expiry, double Strike);
 
     // Getter
@@ -18,3 +18,4 @@ public:
     using optionType = EuropeanVanillaOption::optionType;
     virtual optionType getOptionType() const = 0;
 };
+
