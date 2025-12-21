@@ -50,9 +50,9 @@ CRRPricer::CRRPricer(Option* Option, int Depth, double asset_price, double r, do
     double h = T / Depth;             // this is a time length for each steps.
 
     //now we calculate the parameters to approximate the black scholes model
-    double drift = r + 0.5 * volatility * volatility;
-    U = std::exp(drift * h + volatility * std::sqrt(h)) - 1.0;
-    D = std::exp(drift * h - volatility * std::sqrt(h)) - 1.0;
+    double k = r + 0.5 * volatility * volatility;
+    U = std::exp(k * h + volatility * std::sqrt(h)) - 1.0;
+    D = std::exp(k * h - volatility * std::sqrt(h)) - 1.0;
     R = std::exp(r * h) - 1.0;
 
     // We calculate the risk-neutral probability with the known parameters
@@ -204,3 +204,4 @@ double CRRPricer::operator()(bool closed_form) {
     //and here we do the actualisation (discount the price back for today value)
     return sum / std::pow(1.0 + R, depth);
 }
+
