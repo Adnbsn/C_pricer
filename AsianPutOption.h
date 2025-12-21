@@ -19,4 +19,3 @@ public:
     // getter strike
     double getStrike() const;
 };
-

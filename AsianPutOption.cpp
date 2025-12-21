@@ -10,14 +10,21 @@ AsianPutOption::AsianPutOption(const std::vector<double>& path, double strike)
     }
 }
 
-// override payoff
+/// <summary>
+/// Unlike american and european options the asian option look at an average spot
+/// </summary>
+/// <param name="avgSpot"></param>
+/// <returns></returns>
 double AsianPutOption::payoff(double avgSpot) const
-{
+{   // If the average of the prices while the option was lasting is lower than the strike then we get 
     if (_strike > avgSpot)
     {
         return _strike - avgSpot;
     }
-    return 0.0;
+    //else we get nothing
+    else {
+        return 0.0;
+    }
 }
 
 // getter for strike
@@ -26,4 +33,3 @@ double AsianPutOption::getStrike() const
     return _strike;
 
 }
-

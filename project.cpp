@@ -18,12 +18,9 @@ int main() {
         
         double S0(100.), K(101.), T(5.0), r(0.01), sigma(0.1);
         
-        // European options for Black-Scholes
         CallOption opt1(T, K);
         PutOption opt2(T, K);
 
-        // American Option specifically for the CRR N=5 test
-        // This is required to get the 3.10 price (Early Exercise)
         AmericanPutOption opt2_American(T, K);
 
 
@@ -33,7 +30,6 @@ int main() {
             BlackScholesPricer pricer1(&opt1, S0, r, sigma);
             std::cout << "BlackScholesPricer price=" << pricer1() << ", delta=" << pricer1.delta() << std::endl;
 
-            // BlackScholes only works with European options, so we keep using opt2 here
             BlackScholesPricer pricer2(&opt2, S0, r, sigma);
             std::cout << "BlackScholesPricer price=" << pricer2() << ", delta=" << pricer2.delta() << std::endl;
             std::cout << std::endl;
@@ -51,8 +47,6 @@ int main() {
             std::cout << "CRR pricer explicit formula price=" << crr_pricer1(true) << std::endl;
             std::cout << std::endl;
 
-            // FIX: We use opt2_American here to get the American price (3.10)
-            // instead of the European price (2.63)
             CRRPricer crr_pricer2(&opt2_American, N, S0, U, D, R);
             std::cout << "Calling CRR pricer with depth=" << N << std::endl;
             std::cout << std::endl;

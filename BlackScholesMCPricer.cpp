@@ -6,20 +6,34 @@
 #include <cmath>
 #include <stdexcept>
 
-//Constructor
+/*
+This pricer implements Monte Carlo valuation under the Black–Scholes model
+It supports
+European options (payoff depends only on S_T)
+Asian options (payoff depends on the whole price)
+The Monte Carlo estimator converges to the risk-neutral price H0 = E_Q [e^{-rT} h(S)]
+*/
+
 BlackScholesMCPricer::BlackScholesMCPricer(Option* option, double initial_price, double interest_rate, double volatility) :option(option), initial_price(initial_price), interest_rate(interest_rate), volatility(volatility)
 {
+    // Initialization for Monte Carlo
     nbPaths = 0;
     sum_payoffs = 0;
     sum_payoffs_squared = 0;
     nb_paths_generated = 0;
 }
 
-// Getter for number of paths
+// Getter for number of Monte Carlo paths generated so far
 int BlackScholesMCPricer::getNbPaths() const
 {
     return nbPaths;
 }
+
+/*
+This method generates nb_paths independent Monte Carlo trajectories
+under the Black–Scholes: dS_t = r S_t dt + sigma S_t dW_t
+Closed-form solution is S_t = S_0 exp((r − 0.5 σ^2)t + σ sqrt(t) Z)
+*/
 
 //generate function :
 void BlackScholesMCPricer::generate(int nb_paths)
@@ -30,6 +44,7 @@ void BlackScholesMCPricer::generate(int nb_paths)
     for (int i = 0; i < nb_paths; ++i) //we have to generate a payoff and prices for each path
     {
         double payoff = 0.0;
+
         // For European options (m = 1): HT = h(ST)
         if (!option->isAsianOption())
         {
@@ -39,6 +54,7 @@ void BlackScholesMCPricer::generate(int nb_paths)
             double ST = initial_price * std::exp((interest_rate - 0.5 * volatility * volatility) * T + volatility * std::sqrt(T) * Z);
             payoff = option->payoff(ST);
         }
+
         // For Asian options (m > 1): HT = h(St1, ..., Stm)
         else
         {
@@ -74,6 +90,11 @@ void BlackScholesMCPricer::generate(int nb_paths)
     }
 }
 
+/*
+This method returns the Monte Carlo estimate of the option price:
+H0 = (1/N) Sum(discounted_payoffs)
+*/
+
 //operator ()
 double BlackScholesMCPricer::operator()() const
 {
@@ -85,7 +106,9 @@ double BlackScholesMCPricer::operator()() const
     return sum_payoffs / nb_paths_generated;
 }
 
-//
+// Confidence interval (95%)
+// We compute a 95 % confidence interval : [mean−1.96*SE, mean+1.96*SE]
+
 std::vector<double> BlackScholesMCPricer::confidenceInterval() const
 {
     if (nb_paths_generated == 0)

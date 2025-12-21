@@ -19,4 +19,3 @@ public:
     double getStrike() const;
 };
 
-

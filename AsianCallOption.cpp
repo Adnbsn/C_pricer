@@ -1,29 +1,31 @@
 #include "AsianCallOption.h"
 
-// Constructor
 AsianCallOption::AsianCallOption(const std::vector<double>& path, double strike)
     : AsianOption(path), _strike(strike)
 {
     if (strike < 0.0)
-    {
         throw std::invalid_argument("AsianCallOption: strike must be >= 0");
-    }
 }
 
-// Override payoff
+/// <summary>
+/// Unlike american and european options the asian option look at an average spot
+/// </summary>
+/// <param name="avgSpot"></param>
+/// <returns></returns>
 double AsianCallOption::payoff(double avgSpot) const
-{
+{   // If the average of the prices while the option was lasting is higher than the strike then we get 
     if (avgSpot > _strike)
     {
         return avgSpot - _strike;
     }
-    return 0.0;
+    //else we get nothing
+    else {
+        return 0.0;
+    }
 }
 
-// getter strike
 double AsianCallOption::getStrike() const
 {
     return _strike;
 
 }
-

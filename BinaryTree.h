@@ -2,22 +2,26 @@
 #include <iostream>
 #include <vector>
 
+// to set one class that works for all types
 template <typename T>
 
 class BinaryTree
 {
 public:
     T data;
+    // To set the depth of the tree (levels)
     int depth;
-    BinaryTree() = default;
-    explicit BinaryTree(int n) { setDepth(n); } // constructor
 
-    // getter Node
+    // Default constructor
+    BinaryTree() = default;
+    explicit BinaryTree(int n) { setDepth(n); }
+
+    // To get the value of a node
     T getNode(int n, int index) {
         return tree[n][index];
     }
 
-    // setter depth 
+    // To initialize the tree with a depth
     void setDepth(int n) {
         depth = n;
         tree.resize(n + 1);
@@ -25,12 +29,12 @@ public:
             tree[i].resize(i + 1);
     }
 
-    // setter for a node
+    // To set the value of a node
     void setNode(int level, int index, T value) {
         tree[level][index] = value;
     }
 
-    // display method to show binary tree
+    // To display the tree values for each level
     void display() {
         for (int i = 0; i <= depth; i++) {
             for (size_t j = 0; j < tree[i].size(); j++)
@@ -39,19 +43,21 @@ public:
         }
 
         std::cout << std::endl;
+
+        // Creation of the tree display
         for (int i = 0; i <= depth; ++i) {
-            // spaces to move the line 
+            // Spaces to shift the line
             for (int s = 0; s < (depth - i) * 2; ++s)
                 std::cout << " ";
 
-            // prints every node of level i
+            // Display all nodes at level i
             for (size_t j = 0; j < tree[i].size(); ++j) {
-                std::cout << " " << tree[i][j] << "  "; // fixed space between nodes
+                std::cout << " " << tree[i][j] << "  "; // fixed space between two nodes
             }
             // Final separation between trees
             std::cout << "\n";
 
-            // Prints branches / \ except for last level
+            // Display branches / \ except for the last level
             if (i < depth) {
                 for (int s = 0; s < (depth - i) * 2; ++s)
                     std::cout << " ";
@@ -59,6 +65,7 @@ public:
                     std::cout << "/ \\ ";
                 }
                 // Final separation between trees
+
             }
             std::cout << "\n";
         }
@@ -67,4 +74,3 @@ public:
 private:
     std::vector<std::vector<T>> tree;
 };
-

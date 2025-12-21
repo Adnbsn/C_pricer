@@ -16,11 +16,10 @@ public:
     // getter timesteps
     const std::vector<double>& getTimeSteps() const;
 
-     // ovveride payoffpath
+    // ovveride payoffpath
     double payoffPath(const std::vector<double>& spotPath) const override;
 
     // Override bool isAsianOption 
     bool isAsianOption() const override;
 };
-
 

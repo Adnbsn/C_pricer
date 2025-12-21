@@ -16,7 +16,7 @@ CRRPricer::CRRPricer(Option* Option, int Depth, double asset_price, double up, d
     : option(Option), depth(Depth), S0(asset_price), U(up), D(down), R(interest_rate)
 {
     //CRR trees can't handle asian options. 
-    if (option->isAsianOption()) 
+    if (option->isAsianOption())
     {
         throw std::invalid_argument("CRRPricer cannot price Asian options");
     }
@@ -89,7 +89,7 @@ void CRRPricer::compute() {
 
         // we get the stock price at the final node
         double spot = price_tree.getNode(depth, i);
-        
+
         //we use the payoff function
         double payoff_val = option->payoff(spot);
 
@@ -199,10 +199,9 @@ double CRRPricer::operator()(bool closed_form) {
     for (int i = 0; i <= depth; ++i) {
         double payoff = option->payoff(S0 * std::pow(1.0 + U, i) * std::pow(1.0 + D, depth - i));
         // This is the formula for the easier method
-        sum += (std::tgamma(depth+1) / (std::tgamma(i+1) * std::tgamma(depth - i+1))) * std::pow(q, i) * std::pow(1.0 - q, depth - i) * payoff;
+        sum += (std::tgamma(depth + 1) / (std::tgamma(i + 1) * std::tgamma(depth - i + 1))) * std::pow(q, i) * std::pow(1.0 - q, depth - i) * payoff;
     }
     //and here we do the actualisation (discount the price back for today value)
     return sum / std::pow(1.0 + R, depth);
 }
-
 

@@ -8,9 +8,11 @@ CallOption::CallOption(double expiry, double strike)
 // Payoff implementation
 double CallOption::payoff(double spot) const {
     double K = getStrike();
+    //if current price sup than the strike then we exerce the option and get spot - strike
     if (spot >= K) {
         return spot - K;
     }
+    //else we do nothing
     else {
         return 0.0;
     }

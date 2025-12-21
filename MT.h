@@ -27,4 +27,3 @@ public:
     // Generate normal random number N(0, 1)
     static double rand_norm();
 };
-
