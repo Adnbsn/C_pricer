@@ -18,7 +18,7 @@ CRRPricer::CRRPricer(Option* Option, int Depth, double asset_price, double up, d
     //CRR trees can't handle asian options. 
     if (option->isAsianOption())
     {
-        throw std::invalid_argument("CRRPricer cannot price Asian options");
+        throw std::invalid_argument("CRRPricer don't work for Asian options");
     }
     // We calculate the risk-neutral probability with the known parameters
     q = (R - D) / (U - D);
@@ -43,7 +43,7 @@ CRRPricer::CRRPricer(Option* Option, int Depth, double asset_price, double r, do
 {
     //same crr can't handle asian option
     if (option->isAsianOption()) {
-        throw std::invalid_argument("CRRPricer cannot price Asian options");
+        throw std::invalid_argument("CRRPricer don't work for Asian options");
     }
 
     double T = option->getExpiry();   // this is the time/maturity of the option
@@ -156,10 +156,10 @@ void CRRPricer::compute() {
 /// <returns></returns>
 double CRRPricer::get(int n, int i) {
     if (n < 0 || n > depth) {
-        throw std::out_of_range("get: value for n is out of range");
+        throw std::out_of_range("the n value is higher than depth or negative");
     }
     if (i < 0 || i > n) {
-        throw std::out_of_range("get: value for i is out of range compare to n (or 0)");
+        throw std::out_of_range("The i value is higher than the current row n or negative");
     }
     return option_tree.getNode(n, i);
 }
@@ -172,10 +172,10 @@ double CRRPricer::get(int n, int i) {
 /// <returns></returns>
 bool CRRPricer::getExercise(int n, int i) {
     if (n < 0 || n > depth) {
-        throw std::out_of_range("getExercise: level n out of range");
+        throw std::out_of_range("the n value is higher than depth or negative");
     }
     if (i < 0 || i > n) {
-        throw std::out_of_range("getExercise: index i out of range for level n");
+        throw std::out_of_range("The i value is higher than the current row n or negative");
     }
     return exercise_tree.getNode(n, i);
 }
@@ -187,8 +187,8 @@ bool CRRPricer::getExercise(int n, int i) {
 /// <param name="closed_form"></param>
 /// <returns></returns>
 double CRRPricer::operator()(bool closed_form) {
-    // if we require close form then it will work for both type of option (american and european)
-    // But it is a calulation a bit more complex than needed for european, so can just use the basic formula that is if closed form is true
+    // Tree Calculation for closed_form = false
+    // This uses backward induction. It is slower but works for both American and European
     if (!closed_form) {
         if (!b) compute(); // Make sure we made the calculation
         return option_tree.getNode(0, 0);

@@ -1,6 +1,5 @@
 #pragma once
 #include "AmericanOption.h"
-#include <algorithm>
 
 class AmericanCallOption : public AmericanOption {
 private:

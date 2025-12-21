@@ -16,7 +16,7 @@ EuropeanDigitalOption::EuropeanDigitalOption(double expiry, double Strike)
     To prevent meaningless financial contracts like negative maturity or strike
     */
     if (expiry < 0 || Strike < 0) {
-        throw std::invalid_argument("Expiry and strike must be non-negative.");
+        throw std::invalid_argument("Expiry and strike must be non negative");
     }
 }
 

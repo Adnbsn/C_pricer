@@ -1,6 +1,5 @@
 ﻿#include "BlackScholesMCPricer.h"
 #include "Option.h"
-#include <vector>
 #include "AsianOption.h"
 #include "MT.h"
 #include <cmath>
@@ -114,7 +113,7 @@ double BlackScholesMCPricer::operator()() const
 {
     if (nb_paths_generated == 0)
     {
-        throw std::runtime_error("No paths generated yet. Call generate() first.");
+        throw std::runtime_error("You haven't generated the paths yes. Call generate() first.");
     }
     // H0 = (1/N) * sum discounted_payoffs
     return sum_payoffs / nb_paths_generated;
@@ -127,7 +126,7 @@ std::vector<double> BlackScholesMCPricer::confidenceInterval() const
 {
     if (nb_paths_generated == 0)
     {
-        throw std::runtime_error("No paths generated yet. Call generate() first.");
+        throw std::runtime_error("You haven't generated the paths yes. Call generate() first.");
     }
     // Mean estimate
     double mean = sum_payoffs / nb_paths_generated;

@@ -4,7 +4,7 @@ AsianCallOption::AsianCallOption(const std::vector<double>& path, double strike)
     : AsianOption(path), _strike(strike)
 {
     if (strike < 0.0)
-        throw std::invalid_argument("AsianCallOption: strike must be >= 0");
+        throw std::invalid_argument("For Asian option strike have to be >= 0");
 }
 
 /// <summary>

@@ -6,7 +6,7 @@ AsianPutOption::AsianPutOption(const std::vector<double>& path, double strike)
 {
     if (strike < 0.0)
     {
-        throw std::invalid_argument("AsianPutOption: strike must be >= 0");
+        throw std::invalid_argument("For Asian option strike have to be >= 0");
     }
 }
 

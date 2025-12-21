@@ -33,7 +33,7 @@ int main() {
             int N(5);
             double U = 0.05;
             double D = -0.045;
-            double R = 0.01;
+            double R = 0.01;    
 
             CRRPricer crr_pricer1(&opt1, N, S0, U, D, R);
             std::cout << "Calling CRR pricer with depth=" << N << std::endl;
@@ -66,6 +66,8 @@ int main() {
         BinaryTree<double> t2;
         t2.setDepth(2);
         t2.setNode(2, 1, 3.14);
+        t2.setNode(2, 0, 3.098479469);
+
         t2.display();
         t2.setDepth(4);
         t2.display();
@@ -121,6 +123,9 @@ int main() {
         }
         std::cout << std::endl << "*********************************************************" << std::endl;
     }
+
+
+
     {
         double S0(100.), K(101.), T(5.0), r(0.01), sigma(0.1);
         std::vector<Option*> opt_ptrs;

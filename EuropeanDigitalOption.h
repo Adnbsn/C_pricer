@@ -18,4 +18,3 @@ public:
     using optionType = EuropeanVanillaOption::optionType;
     virtual optionType getOptionType() const = 0;
 };
-

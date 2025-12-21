@@ -21,6 +21,7 @@ double EuropeanDigitalPutOption::payoff(double spot) const {
     if (spot <= getStrike()) {
         return 1.0;
     }
+    //else we get nothing
     else {
         return 0.0;
     }

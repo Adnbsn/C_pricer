@@ -85,7 +85,7 @@ double BlackScholesPricer::operator()() {
         }
     }
     // Safety check for initialization
-    throw std::runtime_error("BlackScholesPricer not initialized with an option.");
+    throw std::runtime_error("There is an issue in the initialisation of the black scholes pricer");
 }
 
 
@@ -131,5 +131,5 @@ double BlackScholesPricer::delta() {
     }
 
     // Safety check for initialization
-    throw std::runtime_error("BlackScholesPricer not initialized with an option.");
+    throw std::runtime_error("There is an issue in the initialisation of the black scholes pricer");
 }
