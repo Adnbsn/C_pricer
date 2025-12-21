@@ -41,6 +41,21 @@ void BlackScholesMCPricer::generate(int nb_paths)
     double T = option->getExpiry();
     double discount_factor = std::exp(-interest_rate * T); //it's exp(-rT) in the H0 formula
 
+    std::vector<double> price_path; //we initialize the vector outside of the for to try optimize the execution time
+
+    //we prepare the asian option only once instead of in the for.
+    const std::vector<double>* time_steps_ptr = nullptr;
+    if (option->isAsianOption()) {
+        AsianOption* asian_opt = dynamic_cast<AsianOption*>(option);
+        if (asian_opt) {
+            time_steps_ptr = &(asian_opt->getTimeSteps());
+            // This allow to allocate memory for all steps at once at the start to prevent 
+            // resizing each time when using push_back inside the loop (this is for trying to optimize)
+            price_path.reserve(time_steps_ptr->size()); 
+        }
+    }
+
+
     for (int i = 0; i < nb_paths; ++i) //we have to generate a payoff and prices for each path
     {
         double payoff = 0.0;
@@ -58,9 +73,8 @@ void BlackScholesMCPricer::generate(int nb_paths)
         // For Asian options (m > 1): HT = h(St1, ..., Stm)
         else
         {
-            AsianOption* asian_option = dynamic_cast<AsianOption*>(option);
-            std::vector<double> time_steps = asian_option->getTimeSteps();
-            std::vector<double> price_path;  // (St1, ..., Stm)
+            const std::vector<double>& time_steps = *time_steps_ptr;
+            price_path.clear();//we reset the vector
             double S_prev = initial_price;  // S0 here in the first iteration
             double t_prev = 0.0;
 
