@@ -9,10 +9,15 @@ AsianPutOption::AsianPutOption(const std::vector<double>& path, double strike)
 
 double AsianPutOption::payoff(double avgSpot) const
 {
-    return (_strike > avgSpot) ? (_strike - avgSpot) : 0.0;
+    if (_strike > avgSpot)
+    {
+        return _strike - avgSpot;
+    }
+    return 0.0;
 }
 
 double AsianPutOption::getStrike() const
 {
     return _strike;
+
 }
