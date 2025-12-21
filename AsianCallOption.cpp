@@ -9,10 +9,15 @@ AsianCallOption::AsianCallOption(const std::vector<double>& path, double strike)
 
 double AsianCallOption::payoff(double avgSpot) const
 {
-    return (avgSpot > _strike) ? (avgSpot - _strike) : 0.0;
+    if (avgSpot > _strike)
+    {
+        return avgSpot - _strike;
+    }
+    return 0.0;
 }
 
 double AsianCallOption::getStrike() const
 {
     return _strike;
+
 }
