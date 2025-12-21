@@ -63,7 +63,7 @@ CRRPricer::CRRPricer(Option* Option, int Depth, double asset_price, double r, do
 }
 
 /// <summary>
-/// This is a pree that will follow the different changes in price that can happen to the stock.
+/// This is a tree that will follow the different changes in price that can happen to the stock.
 /// Everywhere the stock can go between now and the end.
 /// </summary>
 void CRRPricer::BuildPriceTree() {
@@ -204,4 +204,5 @@ double CRRPricer::operator()(bool closed_form) {
     //and here we do the actualisation (discount the price back for today value)
     return sum / std::pow(1.0 + R, depth);
 }
+
 
